@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SG Trip - 旅遊助手</title>
+    <!-- 引入外部 CSS 與 JS 資源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap');
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            background-color: #f1f5f9; 
+            touch-action: pan-y; 
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- 指定 type="text/babel" 讓 Babel 解析 JSX -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 20, className = "" }) => {
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [name]);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const Calculator = ({ onBack }) => {
+            const [lang, setLang] = useState('zh'); 
+            const [nettInput, setNettInput] = useState('');
+            const [plusInput, setPlusInput] = useState('');
+            const [refundInputVal, setRefundInputVal] = useState('');
+
+            const rates = { TWD: 24.2, AUD: 1.12 };
+            const t = {
+                zh: { 
+                    appTitle: "SG 匯率快算", 
+                    nettTitle: "一般含稅 (Nett)", 
+                    plusPlusTitle: "外加服務費&稅金", 
+                    plusPlusDesc: "10%+9%", 
+                    twd: "TWD (台幣)", 
+                    aud: "AUD (澳幣)", 
+                    refundTitle: "退稅計算 (GST 9%)", 
+                    fxTitle: "即時匯率換算",
+                    afterRefund: "退稅後實付 (SGD)"
+                },
+                en: { 
+                    appTitle: "SG FX Calc", 
+                    nettTitle: "Nett Price", 
+                    plusPlusTitle: "Service & Tax", 
+                    plusPlusDesc: "10%+9%", 
+                    twd: "TWD", 
+                    aud: "AUD", 
+                    refundTitle: "GST Refund (9%)", 
+                    fxTitle: "Currency Exchange",
+                    afterRefund: "Final Cost (SGD)"
+                }
+            }[lang];
+
+            const nettVal = parseFloat(nettInput) || 0;
+            const plusBase = parseFloat(plusInput) || 0;
+            const plusFinal = plusBase * 1.10 * 1.09;
+            const refundSgd = parseFloat(refundInputVal) || 0;
+            const refundAmt = (refundSgd / 1.09) * 0.09;
+            const refundFinalSgd = refundSgd - refundAmt;
+            const activeSgd = nettVal || plusFinal || refundFinalSgd || 0;
+
+            return (
+                <div className="min-h-screen bg-slate-50">
+                    <header className="bg-white/90 backdrop-blur-md sticky top-0 z-10 border-b p-4 flex justify-between items-center shadow-sm">
+                        <button onClick={onBack} className="p-2 -ml-2 text-slate-600 active:scale-90 transition-transform">
+                            <Icon name="chevron-left" size={24} />
+                        </button>
+                        <h2 className="font-black text-lg text-slate-800">{t.appTitle}</h2>
+                        <button onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')} className="bg-indigo-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full">
+                            {lang === 'zh' ? 'EN' : '中'}
+                        </button>
+                    </header>
+                    <main className="max-w-md mx-auto p-4 space-y-4">
+                        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 border-l-8 border-l-indigo-500">
+                            <span className="text-[10px] font-black text-indigo-600 uppercase mb-2 block tracking-widest">{t.nettTitle}</span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-slate-400 font-bold">$</span>
+                                <input type="number" inputMode="decimal" value={nettInput} onChange={(e) => { setNettInput(e.target.value); setPlusInput(''); setRefundInputVal(''); }} className="w-full text-2xl font-black outline-none bg-transparent" placeholder="0 SGD" />
+                                <button onClick={() => setNettInput('')} className="text-slate-300 p-2"><Icon name="x-circle" size={20}/></button>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 border-l-8 border-l-emerald-500">
+                            <div className="flex justify-between items-center mb-1">
+                                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{t.plusPlusTitle}</span>
+                                <span className="text-[10px] font-black bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-100">{t.plusPlusDesc}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-slate-400 font-bold">$</span>
+                                <input type="number" inputMode="decimal" value={plusInput} onChange={(e) => { setPlusInput(e.target.value); setNettInput(''); setRefundInputVal(''); }} className="w-full text-2xl font-black outline-none bg-transparent" placeholder="0 BASE" />
+                                <button onClick={() => setPlusInput('')} className="text-slate-300 p-2"><Icon name="x-circle" size={20}/></button>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 border-l-8 border-l-amber-500">
+                            <span className="text-[10px] font-black text-amber-600 uppercase mb-2 block tracking-widest">{t.refundTitle}</span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-slate-400 font-bold">$</span>
+                                <input type="number" inputMode="decimal" value={refundInputVal} onChange={(e) => { setRefundInputVal(e.target.value); setNettInput(''); setPlusInput(''); }} className="w-full text-2xl font-black outline-none bg-transparent" placeholder="0 RCPT" />
+                                <button onClick={() => setRefundInputVal('')} className="text-slate-300 p-2"><Icon name="x-circle" size={20}/></button>
+                            </div>
+                        </div>
+
+                        <div className={`mt-6 p-6 rounded-3xl bg-indigo-600 text-white shadow-xl shadow-indigo-200 transition-all duration-500 ${activeSgd > 0 ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-50 translate-y-4 pointer-events-none'}`}>
+                            <div className="text-center mb-4 border-b border-indigo-400/50 pb-4">
+                                <p className="text-[10px] font-bold opacity-70 uppercase tracking-[0.2em] mb-1">Selected Amount</p>
+                                <div className="flex items-center justify-center gap-1">
+                                    <span className="text-4xl font-black">${activeSgd.toFixed(2)}</span>
+                                    <span className="text-lg font-bold opacity-80 mt-1">SGD</span>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="text-center bg-white/10 p-3 rounded-2xl">
+                                    <p className="text-[10px] font-bold opacity-70 mb-1">{t.twd}</p>
+                                    <p className="text-xl font-black">≈ {(activeSgd * rates.TWD).toLocaleString()}</p>
+                                </div>
+                                <div className="text-center bg-white/10 p-3 rounded-2xl">
+                                    <p className="text-[10px] font-bold opacity-70 mb-1">{t.aud}</p>
+                                    <p className="text-xl font-black">≈ {(activeSgd * rates.AUD).toFixed(2)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        function App() {
+            const [view, setView] = useState('menu');
+
+            if (view === 'calc') {
+                return <Calculator onBack={() => setView('menu')} />;
+            }
+
+            return (
+                <div className="min-h-screen flex flex-col items-center justify-center p-6 space-y-10">
+                    <div className="text-center space-y-3">
+                        <div className="w-24 h-24 bg-white rounded-[2rem] shadow-2xl shadow-indigo-100 mx-auto flex items-center justify-center mb-6 border border-slate-100 relative group">
+                            <Icon name="palmtree" size={48} className="text-indigo-600 relative z-10" />
+                        </div>
+                        <h1 className="text-3xl font-black text-slate-800 tracking-tighter">SG Trip Helper</h1>
+                        <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em]">Your Travel Essentials</p>
+                    </div>
+
+                    <div className="w-full max-w-xs space-y-4">
+                        <a 
+                            href="./itinerary.html" 
+                            className="flex items-center justify-between w-full p-5 bg-white rounded-2xl shadow-sm border border-slate-200 active:scale-95 transition-all group hover:border-indigo-300 text-decoration-none"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600">
+                                    <Icon name="calendar" size={24} />
+                                </div>
+                                <div className="text-left">
+                                    <p className="font-black text-slate-800 text-lg leading-tight">瀏覽行程表</p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Itinerary</p>
+                                </div>
+                            </div>
+                            <Icon name="chevron-right" size={20} className="text-slate-300" />
+                        </a>
+
+                        <button 
+                            onClick={() => setView('calc')}
+                            className="flex items-center justify-between w-full p-5 bg-white rounded-2xl shadow-sm border border-slate-200 active:scale-95 transition-all group hover:border-emerald-300"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600">
+                                    <Icon name="calculator" size={24} />
+                                </div>
+                                <div className="text-left">
+                                    <p className="font-black text-slate-800 text-lg leading-tight">匯率計算機</p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Exchange Rate</p>
+                                </div>
+                            </div>
+                            <Icon name="chevron-right" size={20} className="text-slate-300" />
+                        </button>
+                    </div>
+
+                    <footer className="mt-12 text-[9px] font-black text-slate-300 uppercase tracking-[0.4em] text-center">
+                        Singapore 2024 • Travel Smart
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
