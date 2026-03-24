@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Singapore Trip- 旅遊助手</title>
+    <title>Singapore Trip - 旅遊助手</title>
     <!-- 引入外部 CSS 與 JS 資源 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -37,7 +37,7 @@
         const Icon = ({ name, size = 20, className = "" }) => {
             useEffect(() => {
                 if (window.lucide) {
-                    window.lucide.createIcons();
+                   window.lucide.createIcons();
                 }
             }, [name]);
             return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
@@ -162,14 +162,14 @@
                         <div className="w-24 h-24 bg-white rounded-[2rem] shadow-2xl shadow-indigo-100 mx-auto flex items-center justify-center mb-6 border border-slate-100 relative group">
                             <Icon name="palmtree" size={48} className="text-indigo-600 relative z-10" />
                         </div>
-                        <h1 className="text-3xl font-black text-slate-800 tracking-tighter">SG Trip Helper</h1>
+                        <h1 className="text-3xl font-black text-slate-800 tracking-tighter">Singapore Trip</h1>
                         <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em]">Your Travel Essentials</p>
                     </div>
 
                     <div className="w-full max-w-xs space-y-4">
                         <a 
-                            href="./itinerary.html" 
-                            className="flex items-center justify-between w-full p-5 bg-white rounded-2xl shadow-sm border border-slate-200 active:scale-95 transition-all group hover:border-indigo-300 text-decoration-none"
+                           href="./itinerary.html" 
+                           className="flex items-center justify-between w-full p-5 bg-white rounded-2xl shadow-sm border border-slate-200 active:scale-95 transition-all group hover:border-indigo-300 text-decoration-none"
                         >
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600">
@@ -185,7 +185,7 @@
 
                         <button 
                             onClick={() => setView('calc')}
-                            className="flex items-center justify-between w-full p-5 bg-white rounded-2xl shadow-sm border border-slate-200 active:scale-95 transition-all group hover:border-emerald-300"
+                           className="flex items-center justify-between w-full p-5 bg-white rounded-2xl shadow-sm border border-slate-200 active:scale-95 transition-all group hover:border-emerald-300"
                         >
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600">
@@ -201,7 +201,7 @@
                     </div>
 
                     <footer className="mt-12 text-[9px] font-black text-slate-300 uppercase tracking-[0.4em] text-center">
-                        Singapore 2024 • Travel Smart
+                        Singapore 2026 • Travel Smart
                     </footer>
                 </div>
             );
