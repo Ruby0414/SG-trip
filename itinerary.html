@@ -1,293 +1,292 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-   <title>新加坡家族之旅 2026</title>
-   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-   <script src="https://cdn.tailwindcss.com"></script>
-   <style>
-       body {
-           font-family: 'Inter', 'Noto Sans TC', sans-serif;
-           background: #f8fafc;
-           -webkit-tap-highlight-color: transparent;
-           line-height: 1.4;
-       }
-       .no-scrollbar::-webkit-scrollbar { display: none; }
-       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-       
-       .timeline-line::before {
-           content: '';
-           position: absolute;
-           left: 7px;
-           top: 10px;
-           bottom: 10px;
-           width: 2px;
-           background: #cbd5e1;
-       }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>新加坡家族之旅 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1.4;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: #cbd5e1;
+        }
 
-       .active-nav {
-           background: #0f172a !important;
-           color: white !important;
-           transform: scale(1.05);
-       }
-       
-       .active-special-nav {
-           background: #2563eb !important;
-           color: white !important;
-       }
+        .active-nav {
+            background: #0f172a !important;
+            color: white !important;
+            transform: scale(1.05);
+        }
+        
+        .active-special-nav {
+            background: #2563eb !important;
+            color: white !important;
+        }
 
-       .flight-link {
-           text-decoration: underline;
-           text-decoration-thickness: 2px;
-           text-underline-offset: 4px;
-           cursor: pointer;
-           transition: color 0.2s;
-       }
-       .flight-link:active {
-           color: #2563eb;
-           opacity: 0.7;
-       }
+        .flight-link {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .flight-link:active {
+            color: #2563eb;
+            opacity: 0.7;
+        }
 
-       #flight-preview-overlay {
-           position: fixed;
-           inset: 0;
-           background: rgba(0,0,0,0.5);
-           backdrop-filter: blur(8px);
-           z-index: 1000;
-           display: none;
-           align-items: center;
-           justify-content: center;
-           padding: 20px;
-       }
+        #flight-preview-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-       .iphone-card {
-           background: white;
-           border-radius: 28px;
-           width: 100%;
-           max-width: 350px;
-           overflow: hidden;
-           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-           animation: cardPopup 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-       }
+        .iphone-card {
+            background: white;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 350px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: cardPopup 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
 
-       @keyframes cardPopup {
-           from { transform: scale(0.9); opacity: 0; }
-           to { transform: scale(1); opacity: 1; }
-       }
+        @keyframes cardPopup {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
 
-       #loading-overlay {
-           position: fixed;
-           inset: 0;
-           background: white;
-           z-index: 100;
-           display: flex;
-           flex-direction: column;
-           align-items: center;
-           justify-content: center;
-           transition: opacity 0.5s ease;
-       }
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
 
-       .airline-logo-sm {
-           width: 24px;
-           height: 24px;
-           object-fit: contain;
-           border-radius: 4px;
-       }
-   </style>
+        .airline-logo-sm {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body class="pb-24">
 
-   <div id="loading-overlay">
-       <div class="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
-       <p class="mt-4 text-xs font-black text-slate-400 tracking-widest">載入中...</p>
-   </div>
+    <div id="loading-overlay">
+        <div class="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
+        <p class="mt-4 text-xs font-black text-slate-400 tracking-widest">載入中...</p>
+    </div>
 
-   <!-- 航班預覽彈窗 -->
-   <div id="flight-preview-overlay" onclick="closeFlightPreview()">
-       <div class="iphone-card" onclick="event.stopPropagation()">
-           <div class="h-44 bg-sky-100 relative overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://www.google.com/maps/vt/pb=!1m4!1m3!1i5!2i26!3i13!2m3!1e0!2sm!3i420120488!3m8!2szh-TW!3sau!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425')] bg-cover opacity-60"></div>
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white/20"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-10">
-                     <div class="flex justify-between items-center relative">
-                        <div class="w-4 h-4 bg-blue-500 rounded-full ring-4 ring-white shadow-md"></div>
-                        <div class="flex-1 border-t-2 border-dashed border-blue-400/60 mx-2 relative">
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl rotate-45">✈️</div>
-                        </div>
-                        <div class="w-4 h-4 bg-slate-300 rounded-full ring-4 ring-white shadow-md"></div>
+    <!-- 航班預覽彈窗 -->
+    <div id="flight-preview-overlay" onclick="closeFlightPreview()">
+        <div class="iphone-card" onclick="event.stopPropagation()">
+            <div class="h-44 bg-sky-100 relative overflow-hidden">
+                 <div class="absolute inset-0 bg-[url('https://www.google.com/maps/vt/pb=!1m4!1m3!1i5!2i26!3i13!2m3!1e0!2sm!3i420120488!3m8!2szh-TW!3sau!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m1!1e0!23i4111425')] bg-cover opacity-60"></div>
+                 <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white/20"></div>
+                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-10">
+                      <div class="flex justify-between items-center relative">
+                         <div class="w-4 h-4 bg-blue-500 rounded-full ring-4 ring-white shadow-md"></div>
+                         <div class="flex-1 border-t-2 border-dashed border-blue-400/60 mx-2 relative">
+                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl rotate-45">✈️</div>
+                         </div>
+                         <div class="w-4 h-4 bg-slate-300 rounded-full ring-4 ring-white shadow-md"></div>
+                      </div>
+                 </div>
+                 <div class="absolute bottom-3 left-4 flex items-center gap-2 bg-white/90 px-2 py-1 rounded shadow-sm">
+                     <img id="preview-airline-logo" src="" class="airline-logo-sm" alt="Logo" onerror="this.style.visibility='hidden'">
+                     <div id="preview-airline-banner" class="text-[10px] font-black text-blue-900 uppercase tracking-widest">STARLUX</div>
+                 </div>
+            </div>
+            
+            <div class="p-6">
+                 <div class="flex justify-between items-start mb-6">
+                     <div>
+                         <h4 id="preview-no" class="text-xs font-black text-slate-400 mb-1 tracking-wider uppercase">JX772</h4>
+                         <div class="flex items-baseline gap-1">
+                             <span id="preview-from-code" class="text-4xl font-black text-slate-900">SIN</span>
+                             <span id="preview-from-term" class="text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">航廈 2</span>
+                         </div>
                      </div>
-                </div>
-                <div class="absolute bottom-3 left-4 flex items-center gap-2 bg-white/90 px-2 py-1 rounded shadow-sm">
-                    <img id="preview-airline-logo" src="" class="airline-logo-sm" alt="Logo" onerror="this.style.visibility='hidden'">
-                    <div id="preview-airline-banner" class="text-[10px] font-black text-blue-900 uppercase tracking-widest">STARLUX</div>
-                </div>
-           </div>
-           
-           <div class="p-6">
-                <div class="flex justify-between items-start mb-6">
-                    <div>
-                        <h4 id="preview-no" class="text-xs font-black text-slate-400 mb-1 tracking-wider uppercase">JX772</h4>
-                        <div class="flex items-baseline gap-1">
-                            <span id="preview-from-code" class="text-4xl font-black text-slate-900">SIN</span>
-                            <span id="preview-from-term" class="text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">航廈 2</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">狀態：準時</span>
-                        <div class="flex items-baseline gap-1 justify-end mt-3">
-                            <span id="preview-to-term" class="text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">航廈 2</span>
-                            <span id="preview-to-code" class="text-4xl font-black text-slate-900">TPE</span>
-                        </div>
-                    </div>
-                </div>
+                     <div class="text-right">
+                         <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">狀態：準時</span>
+                         <div class="flex items-baseline gap-1 justify-end mt-3">
+                             <span id="preview-to-term" class="text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">航廈 2</span>
+                             <span id="preview-to-code" class="text-4xl font-black text-slate-900">TPE</span>
+                         </div>
+                     </div>
+                 </div>
 
-                <div class="space-y-4 border-t border-slate-100 pt-5">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">預定起飛</p>
-                            <p id="preview-dep" class="text-lg font-bold text-slate-900">14:45</p>
-                            <p id="preview-dep-date" class="text-[10px] text-slate-500 font-medium">3月18日 週三</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">預定抵達</p>
-                            <p id="preview-arr" class="text-lg font-bold text-slate-900">19:25</p>
-                            <p id="preview-arr-date" class="text-[10px] text-slate-500 font-medium">3月18日 週三</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between text-[11px] font-bold text-slate-500 bg-slate-50 p-3 rounded-xl">
-                        <span>飛行時間</span>
-                        <span id="preview-duration">4 小時 40 分鐘</span>
-                    </div>
-                </div>
+                 <div class="space-y-4 border-t border-slate-100 pt-5">
+                     <div class="grid grid-cols-2 gap-4">
+                         <div>
+                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">預定起飛</p>
+                             <p id="preview-dep" class="text-lg font-bold text-slate-900">14:45</p>
+                             <p id="preview-dep-date" class="text-[10px] text-slate-500 font-medium">3月18日 週三</p>
+                         </div>
+                         <div class="text-right">
+                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">預定抵達</p>
+                             <p id="preview-arr" class="text-lg font-bold text-slate-900">19:25</p>
+                             <p id="preview-arr-date" class="text-[10px] text-slate-500 font-medium">3月18日 週三</p>
+                         </div>
+                     </div>
+                     
+                     <div class="flex justify-between text-[11px] font-bold text-slate-500 bg-slate-50 p-3 rounded-xl">
+                         <span>飛行時間</span>
+                         <span id="preview-duration">4 小時 40 分鐘</span>
+                     </div>
+                 </div>
 
-                <div class="mt-8 flex gap-3">
-                    <button onclick="closeFlightPreview()" class="flex-1 bg-slate-100 py-3.5 rounded-2xl text-sm font-black text-slate-600 active:scale-95 transition-all">關閉</button>
-                    <button onclick="copyFlightCode(event)" class="flex-1 bg-blue-600 py-3.5 rounded-2xl text-sm font-black text-white shadow-xl shadow-blue-100 active:scale-95 transition-all">拷貝代碼</button>
-                </div>
-           </div>
-       </div>
-   </div>
+                 <div class="mt-8 flex gap-3">
+                     <button onclick="closeFlightPreview()" class="flex-1 bg-slate-100 py-3.5 rounded-2xl text-sm font-black text-slate-600 active:scale-95 transition-all">關閉</button>
+                     <button onclick="copyFlightCode(event)" class="flex-1 bg-blue-600 py-3.5 rounded-2xl text-sm font-black text-white shadow-xl shadow-blue-100 active:scale-95 transition-all">拷貝代碼</button>
+                 </div>
+            </div>
+        </div>
+    </div>
 
-   <!-- 頁首 -->
-   <header class="bg-white px-4 py-3 shadow-sm sticky top-0 z-50 border-b border-slate-100 flex justify-between items-center">
-       <div class="flex-1"></div>
-       <div class="text-center">
-           <h1 id="main-title" class="text-xl font-black text-slate-900 tracking-tight">新加坡家族之旅</h1>
-           <p class="text-[9px] text-slate-500 font-bold tracking-widest uppercase">2026 Mar. 31 - Apr. 07</p>
-       </div>
-       <div class="flex-1 flex justify-end">
-           <button onclick="toggleLang()" id="lang-toggle" class="bg-slate-900 px-3 py-1.5 rounded-lg text-[10px] font-black text-white active:scale-95 transition-all">
+    <!-- 頁首 -->
+    <header class="bg-white px-4 py-3 shadow-sm sticky top-0 z-50 border-b border-slate-100 flex justify-between items-center">
+        <div class="flex-1"></div>
+        <div class="text-center">
+            <h1 id="main-title" class="text-xl font-black text-slate-900 tracking-tight">新加坡家族之旅</h1>
+            <p class="text-[9px] text-slate-500 font-bold tracking-widest uppercase">2026 Mar. 31 - Apr. 07</p>
+        </div>
+        <div class="flex-1 flex justify-end">
+            <button onclick="toggleLang()" id="lang-toggle" class="bg-slate-900 px-3 py-1.5 rounded-lg text-[10px] font-black text-white active:scale-95 transition-all">
                 EN / 中
-           </button>
-       </div>
-   </header>
+            </button>
+        </div>
+    </header>
 
-   <!-- 導覽列 -->
-   <nav class="flex overflow-x-auto px-4 py-3 gap-3 no-scrollbar sticky top-[57px] bg-slate-50/95 backdrop-blur-md z-40 border-b border-slate-200">
-       <!-- 新增的回首頁按鈕 -->
-       <a href="./index.html" class="flex-shrink-0 w-14 h-14 rounded-xl bg-slate-800 text-white flex flex-col items-center justify-center shadow-md active:scale-90 transition-transform">
-           <span class="text-lg">🏠</span>
-           <span class="text-[8px] font-black uppercase tracking-tighter">HOME</span>
-       </a>
-       
-       <button id="nav-prep" onclick="showSection('prep')" class="flex-shrink-0 w-14 h-14 rounded-xl bg-white border border-emerald-200 text-emerald-700 flex flex-col items-center justify-center shadow-sm">
-           <span class="text-xs font-black lang-zh">行前</span>
-           <span class="text-xs font-black lang-en hidden">PREP</span>
-           <span class="text-[8px] font-bold opacity-60">READY</span>
-       </button>
-       <div id="date-nav-container" class="flex gap-3"></div>
-   </nav>
+    <!-- 導覽列 -->
+    <nav class="flex overflow-x-auto px-4 py-3 gap-3 no-scrollbar sticky top-[57px] bg-slate-50/95 backdrop-blur-md z-40 border-b border-slate-200">
+        <a href="./index.html" class="flex-shrink-0 w-14 h-14 rounded-xl bg-slate-800 text-white flex flex-col items-center justify-center shadow-md active:scale-90 transition-transform">
+            <span class="text-lg">🏠</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">HOME</span>
+        </a>
+        
+        <button id="nav-prep" onclick="showSection('prep')" class="flex-shrink-0 w-14 h-14 rounded-xl bg-white border border-emerald-200 text-emerald-700 flex flex-col items-center justify-center shadow-sm">
+            <span class="text-xs font-black lang-zh">行前</span>
+            <span class="text-xs font-black lang-en hidden">PREP</span>
+            <span class="text-[8px] font-bold opacity-60">READY</span>
+        </button>
+        <div id="date-nav-container" class="flex gap-3"></div>
+    </nav>
 
-   <!-- 內容卡片 -->
-   <main class="px-4 mt-4 max-w-lg mx-auto">
-       <div id="content-card" class="bg-white rounded-[32px] p-6 shadow-xl border border-slate-100 transition-all duration-300"></div>
-   </main>
+    <!-- 內容卡片 -->
+    <main class="px-4 mt-4 max-w-lg mx-auto">
+        <div id="content-card" class="bg-white rounded-[32px] p-6 shadow-xl border border-slate-100 transition-all duration-300"></div>
+    </main>
 
-   <!-- 底部切換按鈕 -->
-   <div class="fixed bottom-4 left-4 right-4 flex justify-between items-center z-50">
-       <button onclick="moveStep(-1)" class="w-14 h-14 rounded-2xl bg-white shadow-2xl border border-slate-200 flex items-center justify-center active:scale-95">
-           <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
-       </button>
-       <div id="step-indicator" class="px-6 py-3 bg-slate-900 text-white rounded-full text-xs font-black shadow-xl tracking-tighter">
-           DAY 1 / 8
-       </div>
-       <button onclick="moveStep(1)" class="w-14 h-14 rounded-2xl bg-white shadow-2xl border border-slate-200 flex items-center justify-center active:scale-95">
-           <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-       </button>
-   </div>
+    <!-- 底部切換按鈕 -->
+    <div class="fixed bottom-4 left-4 right-4 flex justify-between items-center z-50">
+        <button onclick="moveStep(-1)" class="w-14 h-14 rounded-2xl bg-white shadow-2xl border border-slate-200 flex items-center justify-center active:scale-95">
+            <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <div id="step-indicator" class="px-6 py-3 bg-slate-900 text-white rounded-full text-xs font-black shadow-xl tracking-tighter">
+            DAY 1 / 8
+        </div>
+        <button onclick="moveStep(1)" class="w-14 h-14 rounded-2xl bg-white shadow-2xl border border-slate-200 flex items-center justify-center active:scale-95">
+            <svg class="w-8 h-8 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
 
-   <script>
-       let currentLang = 'zh';
-       let currentIndex = 0;
-       
-       const airlineLogos = {
-           "澳洲航空": "https://www.qantas.com/etc.clientlibs/qantas/clientlibs/clientlib-site/resources/images/logos/qantas-logo.svg",
-           "Qantas": "https://www.qantas.com/etc.clientlibs/qantas/clientlibs/clientlib-site/resources/images/logos/qantas-logo.svg",
-           "酷虎航空": "https://www.flyscoot.com/assets/images/scoot-logo-yellow.svg",
-           "Scoot": "https://www.flyscoot.com/assets/images/scoot-logo-yellow.svg",
-           "星宇航空": "https://www.starlux-airlines.com/assets/images/logo.svg",
-           "STARLUX": "https://www.starlux-airlines.com/assets/images/logo.svg"
-       };
+    <script>
+        let currentLang = 'zh';
+        let currentIndex = 0;
+        
+        const airlineLogos = {
+            "澳洲航空": "https://www.qantas.com/etc.clientlibs/qantas/clientlibs/clientlib-site/resources/images/logos/qantas-logo.svg",
+            "Qantas": "https://www.qantas.com/etc.clientlibs/qantas/clientlibs/clientlib-site/resources/images/logos/qantas-logo.svg",
+            "酷虎航空": "https://www.flyscoot.com/assets/images/scoot-logo-yellow.svg",
+            "Scoot": "https://www.flyscoot.com/assets/images/scoot-logo-yellow.svg",
+            "星宇航空": "https://www.starlux-airlines.com/assets/images/logo.svg",
+            "STARLUX": "https://www.starlux-airlines.com/assets/images/logo.svg"
+        };
 
-       const flightDatabase = {
-           "QF51": { airline: {zh: "澳洲航空", en: "Qantas"}, from: "BNE", fromTerm: "T1", to: "SIN", toTerm: "T1", dep: "11:05", arr: "17:25", duration: "8 小時 20 分鐘", date: "3月31日 週二" },
-           "JX771": { airline: {zh: "星宇航空", en: "STARLUX"}, from: "TPE", fromTerm: "T2", to: "SIN", toTerm: "T2", dep: "08:05", arr: "12:40", duration: "4 小時 35 分鐘", date: "4月02日 週四" },
-           "TR873": { airline: {zh: "酷虎航空", en: "Scoot"}, from: "TPE", fromTerm: "T1", to: "SIN", toTerm: "T1", dep: "01:35", arr: "06:00", duration: "4 小時 25 分鐘", date: "4月03日 週五" },
-           "QF54": { airline: {zh: "澳洲航空", en: "Qantas"}, from: "SIN", fromTerm: "T1", to: "BNE", toTerm: "T1", dep: "23:10", arr: "08:45+1", duration: "7 小時 35 分鐘", date: "4月05日 週日" },
-           "TR872": { airline: {zh: "酷虎航空", en: "Scoot"}, from: "SIN", fromTerm: "T1", to: "TPE", toTerm: "T1", dep: "12:25", arr: "17:10", duration: "4 小時 45 分鐘", date: "4月06日 週一" },
-           "JX772": { airline: {zh: "星宇航空", en: "STARLUX"}, from: "SIN", fromTerm: "T2", to: "TPE", toTerm: "T2", dep: "14:10", arr: "19:00", duration: "4 小時 50 分鐘", date: "4月07日 週二" }
-       };
+        const flightDatabase = {
+            "QF51": { airline: {zh: "澳洲航空", en: "Qantas"}, from: "BNE", fromTerm: "T1", to: "SIN", toTerm: "T1", dep: "11:05", arr: "17:25", duration: "8 小時 20 分鐘", date: "3月31日 週二" },
+            "JX771": { airline: {zh: "星宇航空", en: "STARLUX"}, from: "TPE", fromTerm: "T2", to: "SIN", toTerm: "T2", dep: "08:05", arr: "12:40", duration: "4 小時 35 分鐘", date: "4月02日 週四" },
+            "TR873": { airline: {zh: "酷虎航空", en: "Scoot"}, from: "TPE", fromTerm: "T1", to: "SIN", toTerm: "T1", dep: "01:35", arr: "06:00", duration: "4 小時 25 分鐘", date: "4月03日 週五" },
+            "QF54": { airline: {zh: "澳洲航空", en: "Qantas"}, from: "SIN", fromTerm: "T1", to: "BNE", toTerm: "T1", dep: "23:10", arr: "08:45+1", duration: "7 小時 35 分鐘", date: "4月05日 週日" },
+            "TR872": { airline: {zh: "酷虎航空", en: "Scoot"}, from: "SIN", fromTerm: "T1", to: "TPE", toTerm: "T1", dep: "12:25", arr: "17:10", duration: "4 小時 45 分鐘", date: "4月06日 週一" },
+            "JX772": { airline: {zh: "星宇航空", en: "STARLUX"}, from: "SIN", fromTerm: "T2", to: "TPE", toTerm: "T2", dep: "14:10", arr: "19:00", duration: "4 小時 50 分鐘", date: "4月07日 週二" }
+        };
 
-       const i18n = {
-           zh: {
+        const i18n = {
+            zh: {
                 mainTitle: "新加坡家族之旅", prep: "行前準備", flight: "航班", hotel: "飯店", map: "導航",
                 prepItems: ["訂購 eSIM 卡", "投保旅平 + 不便險", "下載 Grab App"],
                 sgacTitle: "出發前 72小時內填寫電子入境卡SG Arrival Card",
                 officialWeb: "官方網站", tutorial: "填寫教學",
                 hotelAddress: "6 Shenton Way, OUE Downtown 1, 新加坡 068809"
-           },
-           en: {
+            },
+            en: {
                 mainTitle: "Singapore Trip", prep: "Pre-trip Prep", flight: "Flight", hotel: "Hotel", map: "Map",
                 prepItems: ["Order eSIM card", "Travel Insurance", "Download Grab App"],
                 sgacTitle: "Fill SG Arrival Card within 72h",
                 officialWeb: "Official", tutorial: "Tutorial",
                 hotelAddress: "6 Shenton Way, OUE Downtown 1, Singapore 068809"
-           }
-       };
+            }
+        };
 
-       const tripData = [
-           { date: "03.31", week: {zh:"週二", en:"TUE"}, title: {zh:"抵達與星耀樟宜", en:"Arrival & Jewel"}, items: [
+        const tripData = [
+            { date: "03.31", week: {zh:"週二", en:"TUE"}, title: {zh:"抵達與星耀樟宜", en:"Arrival & Jewel"}, items: [
                 { type: "flight", flightNo: "QF51", detail: "11:05 BNE 🛫 17:25 SIN" },
                 { type: "act", name: {zh:"樟宜機場", en:"Changi Airport"}, desc: {zh:"入境與星耀樟宜雨漩渦燈光秀", en:"Immigration & Rain Vortex"} },
                 { type: "act", name: {zh:"飯店入住", en:"Hotel Check-in"}, desc: {zh:"Dao by Dorsett AMTD 辦理手續", en:"Dao by Dorsett AMTD"} }
-           ]},
-           { date: "04.01", week: {zh:"週三", en:"WED"}, title: {zh:"環球影城一日遊", en:"Universal Studios"}, items: [
+            ]},
+            { date: "04.01", week: {zh:"週三", en:"WED"}, title: {zh:"環球影城一日遊", en:"Universal Studios"}, items: [
                 { type: "act", name: {zh:"環球影城", en:"Universal Studios"}, desc: {zh:"聖淘沙島整日遊玩", en:"Sentosa full day"} },
                 { type: "act", name: {zh:"超級樹燈光秀", en:"Supertree Show"}, desc: {zh:"濱海灣花園燈光表演", en:"Garden Rhapsody"} }
-           ]},
-           { date: "04.02", week: {zh:"週四", en:"THU"}, title: {zh:"濱海灣與古蹟", en:"Marina Bay"}, items: [
+            ]},
+            { date: "04.02", week: {zh:"週四", en:"THU"}, title: {zh:"濱海灣與古蹟", en:"Marina Bay"}, items: [
                 { type: "act", name: {zh:"金沙購物中心 & 濱海灣花園", en:"MBS & Gardens"}, desc: {zh:"雲霧林與花穹參觀", en:"Cloud Forest & Flower Dome"} },
                 { type: "flight", flightNo: "JX771", detail: "08:05 TPE 🛫 12:40 SIN" },
                 { type: "act", name: {zh:"福康寧公園", en:"Fort Canning"}, desc: {zh:"拍照打卡與古蹟散步", en:"Tree Tunnel & Park walk"} },
                 { type: "act", name: {zh:"老巴剎沙嗲", en:"Lau Pa Sat"}, desc: {zh:"沙嗲街晚餐美食體驗", en:"Satay Street dinner"} },
                 { type: "act", time: "20:00 / 21:00", name: {zh:"魚尾獅公園", en:"Merlion Park"}, desc: {zh:"觀看金沙酒店水舞秀", en:"Spectra Water Show"} }
-           ]},
-           { date: "04.03", week: {zh:"週五", en:"FRI"}, title: {zh:"牛車水與生態園", en:"Chinatown & Wildlife"}, items: [
+            ]},
+            { date: "04.03", week: {zh:"週五", en:"FRI"}, title: {zh:"牛車水與生態園", en:"Chinatown & Wildlife"}, items: [
                 { type: "flight", flightNo: "TR873", detail: "01:35 TPE 🛫 06:00 SIN" },
                 { type: "act", name: {zh:"牛車水商圈", en:"Chinatown"}, desc: {zh:"佛牙寺與當地美食午餐", en:"Buddha Tooth Relic Temple"} },
                 { type: "act", name: {zh:"河川生態園", en:"River Wonders"}, desc: {zh:"看熊貓與亞馬遜漂流船", en:"Panda Forest & Boat ride"} },
                 { type: "act", time: "19:15", name: {zh:"夜間動物園", en:"Night Safari"}, desc: {zh:"遊園車與精靈表演", en:"Night Safari Tram"} }
-           ]},
-           { date: "04.04", week: {zh:"週六", en:"SAT"}, title: {zh:"文化街道與美食", en:"Culture & Seafood"}, items: [
+            ]},
+            { date: "04.04", week: {zh:"週六", en:"SAT"}, title: {zh:"文化街道與美食", en:"Culture & Seafood"}, items: [
                 { type: "act", name: {zh:"小印度區", en:"Little India"}, desc: {zh:"特色神廟與文化街道", en:"Heritage sites & Culture"} },
                 { type: "act", name: {zh:"甘幫格南區", en:"Kampong Glam"}, desc: {zh:"哈芝巷、塗鴉壁畫與特色店鋪", en:"Haji Lane, Wall art & boutiques"} },
                 { type: "act", time: "19:15", name: {zh:"克拉碼頭珍寶海鮮", en:"Jumbo Seafood"}, desc: {zh:"招牌辣椒螃蟹豪華晚餐", en:"Signature Chili Crab dinner"} },
                 { type: "act", name: {zh:"舊禧街警察局", en:"MICA Building"}, desc: {zh:"彩色窗戶拍照打卡", en:"Colorful windows photo spot"} },
                 { type: "act", name: {zh:"Jigger & Pony", en:"Jigger & Pony"}, desc: {zh:"世界 50 大酒吧調酒體驗", en:"World's 50 Best Bars"} }
-           ]},
-           { date: "04.05", week: {zh:"週日", en:"SUN"}, title: {zh:"市區觀光與燈光秀", en:"City Tour & Shows"}, items: [
+            ]},
+            { date: "04.05", week: {zh:"週日", en:"SUN"}, title: {zh:"市區觀光與燈光秀", en:"City Tour & Shows"}, items: [
                 { type: "act", name: {zh:"新達城 (Suntec City)", en:"Suntec City"}, desc: {zh:"11:00 兩棲水陸鴨子船（10:30前櫃檯報到及換票） & 財富之泉", en:"11:00 Duck Tour (Check-in before 10:30) & Fountain of Wealth"} },
                 { type: "act", name: {zh:"隨上隨下巴士", en:"Big Bus"}, desc: {zh:"市區紅線/黃線觀光之旅", en:"City Sightseeing Tour"} },
                 { type: "act", name: {zh:"濱海灣金沙區域", en:"Marina Bay Area"}, desc: {zh:"購物中心、水上 LV & Apple Store", en:"MBS, Floating LV & Apple Store"} },
@@ -295,100 +294,100 @@
                 { type: "act", time: "19:45 / 20:45", name: {zh:"超級樹燈光秀", en:"Garden Rhapsody"}, desc: {zh:"濱海灣花園經典燈光表演", en:"Supertree Light Show"} },
                 { type: "act", time: "20:00 / 21:00", name: {zh:"金沙酒店水舞秀", en:"Spectra Water Show"}, desc: {zh:"金沙購物中心外水幕秀", en:"Water & Light Show"} },
                 { type: "flight", flightNo: "QF54", detail: "23:10 SIN 🛫 08:45+1 BNE" }
-           ]},
-           { date: "04.06", week: {zh:"週一", en:"MON"}, title: {zh:"聖淘沙空中之旅", en:"Sentosa Cable Car"}, items: [
+            ]},
+            { date: "04.06", week: {zh:"週一", en:"MON"}, title: {zh:"聖淘沙空中之旅", en:"Sentosa Cable Car"}, items: [
                 { type: "flight", flightNo: "TR872", detail: "12:25 SIN 🛫 17:10 TPE" },
                 { type: "act", name: {zh:"怡豐城 VivoCity", en:"VivoCity"}, desc: {zh:"百貨商場逛街及午餐", en:"Shopping and lunch"} },
                 { type: "act", name: {zh:"空中纜車 🚡", en:"Singapore Cable Car"}, desc: {zh:"花柏山線及聖淘沙線雙線體驗", en:"Mount Faber & Sentosa Line"} },
                 { type: "act", time: "19:40", name: {zh:"時光之翼", en:"Wings of Time"}, desc: {zh:"沙灘水舞煙火燈光秀", en:"Wings of Time show"} }
-           ]},
-           { date: "04.07", week: {zh:"週二", en:"TUE"}, title: {zh:"最後採買返程", en:"Last Day"}, items: [
+            ]},
+            { date: "04.07", week: {zh:"週二", en:"TUE"}, title: {zh:"最後採買返程", en:"Last Day"}, items: [
                 { type: "act", name: {zh:"星耀樟宜 (Jewel Changi)", en:"Jewel Changi"}, desc: {zh:"雨漩渦旁午餐 & 伴手禮採買", en:"Lunch by Rain Vortex & Souvenir shopping"} },
                 { type: "flight", flightNo: "JX772", detail: "14:10 SIN 🛫 19:00 TPE" }
-           ]}
-       ];
+            ]}
+        ];
 
-       async function openFlightPreview(flightNo) {
-           const overlay = document.getElementById('flight-preview-overlay');
-           const data = flightDatabase[flightNo];
-           if (!data) return;
+        async function openFlightPreview(flightNo) {
+            const overlay = document.getElementById('flight-preview-overlay');
+            const data = flightDatabase[flightNo];
+            if (!data) return;
 
-           const airlineName = data.airline[currentLang];
-           document.getElementById('preview-no').innerText = flightNo;
-           document.getElementById('preview-airline-banner').innerText = airlineName;
-           
-           const logoEl = document.getElementById('preview-airline-logo');
-           logoEl.src = airlineLogos[airlineName] || '';
-           logoEl.style.visibility = logoEl.src ? 'visible' : 'hidden';
+            const airlineName = data.airline[currentLang];
+            document.getElementById('preview-no').innerText = flightNo;
+            document.getElementById('preview-airline-banner').innerText = airlineName;
+            
+            const logoEl = document.getElementById('preview-airline-logo');
+            logoEl.src = airlineLogos[airlineName] || '';
+            logoEl.style.visibility = logoEl.src ? 'visible' : 'hidden';
 
-           document.getElementById('preview-from-code').innerText = data.from;
-           document.getElementById('preview-from-term').innerText = `航廈 ${data.fromTerm}`;
-           document.getElementById('preview-to-code').innerText = data.to;
-           document.getElementById('preview-to-term').innerText = `航廈 ${data.toTerm}`;
-           document.getElementById('preview-dep').innerText = data.dep;
-           document.getElementById('preview-arr').innerText = data.arr;
-           document.getElementById('preview-dep-date').innerText = data.date;
-           document.getElementById('preview-arr-date').innerText = data.date;
-           document.getElementById('preview-duration').innerText = data.duration;
+            document.getElementById('preview-from-code').innerText = data.from;
+            document.getElementById('preview-from-term').innerText = `航廈 ${data.fromTerm}`;
+            document.getElementById('preview-to-code').innerText = data.to;
+            document.getElementById('preview-to-term').innerText = `航廈 ${data.toTerm}`;
+            document.getElementById('preview-dep').innerText = data.dep;
+            document.getElementById('preview-arr').innerText = data.arr;
+            document.getElementById('preview-dep-date').innerText = data.date;
+            document.getElementById('preview-arr-date').innerText = data.date;
+            document.getElementById('preview-duration').innerText = data.duration;
 
-           overlay.style.display = 'flex';
-       }
+            overlay.style.display = 'flex';
+        }
 
-       function closeFlightPreview() {
-           document.getElementById('flight-preview-overlay').style.display = 'none';
-       }
+        function closeFlightPreview() {
+            document.getElementById('flight-preview-overlay').style.display = 'none';
+        }
 
-       function copyFlightCode(event) {
-           const code = document.getElementById('preview-no').innerText;
-           
-           if (navigator.clipboard && navigator.clipboard.writeText) {
-               navigator.clipboard.writeText(code);
-           } else {
-                const el = document.createElement('textarea');
-                el.value = code;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-           }
-           
-           const btn = event.currentTarget;
-           const originalText = btn.innerText;
-           btn.innerText = "已拷貝！";
-           btn.classList.replace('bg-blue-600', 'bg-emerald-600');
-           setTimeout(() => {
-                btn.innerText = originalText;
-                btn.classList.replace('bg-emerald-600', 'bg-blue-600');
-           }, 1500);
-       }
+        function copyFlightCode(event) {
+            const code = document.getElementById('preview-no').innerText;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code);
+            } else {
+                 const el = document.createElement('textarea');
+                 el.value = code;
+                 document.body.appendChild(el);
+                 el.select();
+                 document.execCommand('copy');
+                 document.body.removeChild(el);
+            }
+            
+            const btn = event.currentTarget;
+            const originalText = btn.innerText;
+            btn.innerText = "已拷貝！";
+            btn.classList.replace('bg-blue-600', 'bg-emerald-600');
+            setTimeout(() => {
+                 btn.innerText = originalText;
+                 btn.classList.replace('bg-emerald-600', 'bg-blue-600');
+            }, 1500);
+        }
 
-       function toggleLang() {
-           currentLang = currentLang === 'zh' ? 'en' : 'zh';
-           document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('hidden', currentLang !== 'zh'));
-           document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', currentLang !== 'en'));
-           document.getElementById('main-title').innerText = i18n[currentLang].mainTitle;
-           renderNav();
-           showSection(currentIndex === -1 ? 'prep' : currentIndex);
-       }
+        function toggleLang() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            document.querySelectorAll('.lang-zh').forEach(el => el.classList.toggle('hidden', currentLang !== 'zh'));
+            document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', currentLang !== 'en'));
+            document.getElementById('main-title').innerText = i18n[currentLang].mainTitle;
+            renderNav();
+            showSection(currentIndex === -1 ? 'prep' : currentIndex);
+        }
 
-       function renderNav() {
-           const container = document.getElementById('date-nav-container');
-           container.innerHTML = tripData.map((day, idx) => {
-                const parts = day.date.split('.');
-                const mShort = parts[0] === "03" ? "Mar" : "Apr";
-                const display = currentLang === 'zh' ? `<span class="text-xl font-black text-slate-800">${parts[1]}</span><span class="text-[9px] font-bold">${parts[0]}月</span>` 
-                                                   : `<span class="text-xs font-black text-slate-800">${mShort}.${parts[1]}</span>`;
-                return `<button onclick="showSection(${idx})" id="nav-${idx}" class="flex-shrink-0 w-14 h-14 rounded-xl bg-white border border-slate-200 flex flex-col items-center justify-center shadow-sm transition-transform">${display}</button>`;
-           }).join('');
-       }
+        function renderNav() {
+            const container = document.getElementById('date-nav-container');
+            container.innerHTML = tripData.map((day, idx) => {
+                 const parts = day.date.split('.');
+                 const mShort = parts[0] === "03" ? "Mar" : "Apr";
+                 const display = currentLang === 'zh' ? `<span class="text-xl font-black text-slate-800">${parts[1]}</span><span class="text-[9px] font-bold">${parts[0]}月</span>` 
+                                                    : `<span class="text-xs font-black text-slate-800">${mShort}.${parts[1]}</span>`;
+                 return `<button onclick="showSection(${idx})" id="nav-${idx}" class="flex-shrink-0 w-14 h-14 rounded-xl bg-white border border-slate-200 flex flex-col items-center justify-center shadow-sm transition-transform">${display}</button>`;
+            }).join('');
+        }
 
-       function showSection(type) {
-           const card = document.getElementById('content-card');
-           const indicator = document.getElementById('step-indicator');
-           const lang = i18n[currentLang];
-           document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav', 'active-special-nav'));
+        function showSection(type) {
+            const card = document.getElementById('content-card');
+            const indicator = document.getElementById('step-indicator');
+            const lang = i18n[currentLang];
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav', 'active-special-nav'));
 
-           if (type === 'prep') {
+            if (type === 'prep') {
                 currentIndex = -1;
                 document.getElementById('nav-prep').classList.add('active-special-nav');
                 indicator.innerText = lang.prep;
@@ -399,7 +398,7 @@
                             <p class="text-xl font-black text-emerald-900 mb-4">${lang.sgacTitle}</p>
                             <div class="flex gap-3">
                                 <a href="https://eservices.ica.gov.sg/sgarrivalcard/" target="_blank" class="flex-1 text-center py-4 bg-emerald-600 text-white rounded-xl text-sm font-black shadow-md active:scale-95 transition-transform">${lang.officialWeb}</a>
-                                <a href="https://www.clara7.com.tw/2024/02/27/sgac/" target="_blank" class="flex-1 text-center py-4 bg-amber-500 text-white rounded-xl text-sm font-black shadow-md active:scale-95 transition-transform">${lang.tutorial}</a>
+                                <a href="https://ianchen.life/sgac-singapore-arrival-card/" target="_blank" class="flex-1 text-center py-4 bg-amber-500 text-white rounded-xl text-sm font-black shadow-md active:scale-95 transition-transform">${lang.tutorial}</a>
                             </div>
                         </div>
                         <ul class="space-y-5 p-2">
@@ -411,7 +410,7 @@
                             `).join('')}
                         </ul>
                     </div>`;
-           } else {
+            } else {
                 currentIndex = type;
                 document.getElementById(`nav-${currentIndex}`).classList.add('active-nav');
                 const day = tripData[currentIndex];
@@ -438,7 +437,7 @@
                                            <img src="${aLogo}" class="airline-logo-sm" alt="logo" onerror="this.style.display='none'">
                                            <span class="text-xl font-black text-slate-900">${aName} ${item.flightNo}</span>
                                        </div>
-                                   </div>
+                                    </div>
                                     <p class="text-base text-slate-600 font-bold">${item.detail}</p>
                                 </div>`;
                             } else {
@@ -452,7 +451,7 @@
                                         <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.name.en + " Singapore")}" target="_blank" class="bg-slate-100 p-2 rounded-xl text-slate-600 active:bg-slate-200">
                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"></path></svg>
                                        </a>
-                                   </div>
+                                    </div>
                                     <p class="text-xl text-slate-700 font-medium mt-1">${item.desc[currentLang]}</p>
                                 </div>`;
                             }
@@ -468,27 +467,27 @@
                         </div>
                         <p class="text-base text-slate-800 font-bold bg-slate-50 p-4 rounded-2xl">${lang.hotelAddress}</p>
                     </div>`;
-           }
-           window.scrollTo({ top: 0, behavior: 'smooth' });
-       }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-       function moveStep(step) {
-           let next = currentIndex + step;
-           if (next < -1) next = -1;
-           if (next > 7) next = 7;
-           if (next === -1) showSection('prep');
-           else showSection(next);
-       }
+        function moveStep(step) {
+            let next = currentIndex + step;
+            if (next < -1) next = -1;
+            if (next > 7) next = 7;
+            if (next === -1) showSection('prep');
+            else showSection(next);
+        }
 
-       window.onload = () => {
-           renderNav();
-           showSection(0);
-           setTimeout(() => {
-                const loader = document.getElementById('loading-overlay');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
-           }, 600);
-       };
-   </script>
+        window.onload = () => {
+            renderNav();
+            showSection(0);
+            setTimeout(() => {
+                 const loader = document.getElementById('loading-overlay');
+                 loader.style.opacity = '0';
+                 setTimeout(() => loader.style.display = 'none', 500);
+            }, 600);
+        };
+    </script>
 </body>
 </html>
